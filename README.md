@@ -1,4 +1,4 @@
-# ⚡️ 新能源预警平台 (New Energy Early Warning Platform)
+# ⚡️ 新能源电池预警平台 (New Energy Early Warning Platform)
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg)
@@ -8,7 +8,7 @@
 
 ## 📖 项目介绍 (Introduction)
 
-**新能源预警平台**是一个旨在对新能源系统（如风电、光伏、储能电池等）进行实时状态监测与异常预警的 Web 可视化管理系统。
+**新能源预警平台**是一个旨在对新能源电池管理系统（BMS）进行实时状态监测与异常预警的 Web 可视化管理系统。
 
 本项目结合了前端动态数据可视化与后端数据处理，提供了一个直观、高效的监控大屏界面及后台管理门户。通过对设备运行关键数据的实时追踪与分析，帮助运维人员及时发现潜在的安全隐患，有效降低事故发生率，保障新能源系统的安全、高效与稳定运行。
 
