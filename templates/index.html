@@ -1,0 +1,443 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>智行合一——新能源汽车电池监控平台</title>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+<!--<script type="text/javascript" src="../js/jquery.js"></script>-->
+<!--<script type="text/javascript" src="../js/echarts.min.js"></script>-->
+<!--<script type="text/javascript" src="../js/area_echarts.js"></script>-->
+    <script src="{{ url_for('static', filename='js/area_echarts.js') }}"></script>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>-->
+<!--<script type="text/javascript" src="../js/js.js"></script>-->
+    <script src="{{ url_for('static', filename='js/js.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <a href="{{ url_for('logout') }}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> 退出登录
+        </a>
+        <a href="{{ url_for('adjust') }}" class="adjust-btn" title="调整阈值">
+            <i class="fas fa-sliders-h"></i> 调整阈值
+        </a>
+
+	<div class="head clearfix">
+	<h1 class="">智行合一——新能源汽车电池监控平台</h1>
+		<div class="time" id="showTime">2025/3/22 19:00:12</div>
+		<script>
+var t = null;
+    t = setTimeout(time,1000);//開始运行
+    function time()
+    {
+       clearTimeout(t);//清除定时器
+       dt = new Date();
+		var y=dt.getFullYear();
+		var mt=dt.getMonth()+1;
+		var day=dt.getDate();
+       var h=dt.getHours();//获取时
+       var m=dt.getMinutes();//获取分
+       var s=dt.getSeconds();//获取秒
+       document.getElementById("showTime").innerHTML = y+"/"+mt+"/"+day+" "+h+":"+m+":"+s+"";
+       t = setTimeout(time,1000); //设定定时器，循环运行     
+    } 
+
+</script>
+	</div>
+	<div class="mainbox">
+	
+	<ul class="clearfix nav1">
+		<li style="width: 32%">
+<!--            <div class="box" style="position: relative; background: rgba(10, 25, 50, 0.8); border-radius: 10px; box-shadow: 0px 0px 20px rgba(0, 150, 255, 0.5); padding: 20px;">-->
+<!--                <div class="tit"><span>电池基本数据</span><p></p></div>-->
+<!--                <div class="boxnav" style="height: 500px;" id="combinedChart"></div>-->
+<!--            </div>-->
+                        <!-- 警告框：初始隐藏 -->
+<!--            <div class="box4">-->
+<!--            <div class="warning-icon">-->
+<!--                <img src="images_login/警告图标.png" alt="警告">-->
+<!--            </div>-->
+<!--            <div class="tit"><span>阻值变化</span><p></p></div>-->
+<!--            <div class="boxnav" style="height: 200px;" id="combinedChart4"></div>-->
+<!--        </div>-->
+            <!-- 电池数据展示始终显示 -->
+            <div class="box">
+                <div class="warning" style="display: none;">
+                   <img src="{{ url_for('static', filename='images/警告图标.png') }}" alt="警告图标">
+                </div>
+
+                <div class="tit"><span>电池基本数据</span><p></p></div>
+                <div class="boxnav" style="height: 500px;" id="combinedChart"></div>
+            </div>
+
+			<div class="box">
+                <div class="warning2" style="display: none;">
+                    <img src="{{ url_for('static', filename='images/警告图标.png') }}" alt="警告图标">
+                </div>
+			<div class="tit"><span>电池特征情况</span><p></p></div>
+			<div class="boxnav" style="height: 320px;" id="combinedChart2">
+
+			</div>
+			</div>
+			
+<!--			<div class="box">-->
+<!--			<div class="tit"><span>医疗服务</span><p></p></div>-->
+<!--			<div class="boxnav" style="height: 250px;">-->
+<!--				<ul class="ylfw">-->
+<!--&lt;!&ndash;				<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>医师日均报卡量</p>&ndash;&gt;-->
+<!--&lt;!&ndash;					<ol><span>12.5</span><em>张</em><i class="text-d">↑4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;					</div></li>&ndash;&gt;-->
+<!--&lt;!&ndash;				<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>平均报卡时间</p>&ndash;&gt;-->
+<!--&lt;!&ndash;					<ol><span>1234</span><em>秒</em><i class="text-s">↓4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div></div></li>&ndash;&gt;-->
+<!--&lt;!&ndash;				&ndash;&gt;-->
+<!--&lt;!&ndash;				<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>医生最高报卡量</p>&ndash;&gt;-->
+<!--&lt;!&ndash;					<ol><span>2.3</span><em>小时</em><i class="text-s">↓4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;					</div></li>&ndash;&gt;-->
+<!--&lt;!&ndash;				<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>最低报卡时间</p> &ndash;&gt;-->
+<!--&lt;!&ndash;					<ol><span>0012</span><em>秒</em><i class="text-s">↓4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div></div></li>&ndash;&gt;-->
+<!--&lt;!&ndash;					<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>医生排除比例</p>&ndash;&gt;-->
+<!--&lt;!&ndash;					<ol><span>10.00%</span><em></em><i class="text-s">↓4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div></div></li>&ndash;&gt;-->
+<!--&lt;!&ndash;				<li><div class="ylfwbox fora">&ndash;&gt;-->
+<!--&lt;!&ndash;					<p>迟报漏报卡数</p> &ndash;&gt;-->
+
+<!--&lt;!&ndash;					<ol><span>0013</span><em>张</em><i class="text-s">↓4.01%</i></ol>&ndash;&gt;-->
+<!--&lt;!&ndash;					<div class="forb"></div></div></li>&ndash;&gt;-->
+<!--					-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--			</div>-->
+<!--			中间部分-->
+		</li>
+		<li style="width:36%">
+
+		<div class="box2" style="position: relative">
+			<div class="map">
+<!--        <div class="map1"><img src="../images/lbx.png"></div>-->
+                <div class="map1"><img src="{{ url_for('static', filename='images/lbx.png') }}" alt="lbx"></div>
+<!--        <div class="map2"><img src="../images/jt.png"></div>-->
+                <div class="map2"><img src="{{ url_for('static', filename='images/jt.png') }}" alt="jt"></div>
+<!--        <div class="map3"><img src="../images/map.png"></div>-->
+                <div class="map3"><img src="{{ url_for('static', filename='images/map.png') }}" alt="map"></div>
+<!--        <div class="map4"><img src="images_login/car.png"></div>-->
+<!--        <div class="map4"><img src="../images/car.png"></div>-->
+                <div class="map4"><img src="{{ url_for('static', filename='images/car.png') }}" alt="car"></div>
+      </div>
+
+			<div class="" id="map" style="height: 557px; position: relative; z-index: 100"></div>
+
+
+			</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>告警列表</title>
+<!--    <link rel="stylesheet" href="../css/add.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+</head>
+<body>
+    <div class="box">
+        <div class="title-bar">
+          <div class="tit">告警列表</div>
+          <div class="form-row">
+            <button id="openAddModalBtn">添加</button>
+          </div>
+        </div>
+        <div class="boxnav">
+            <table id="alarmTable">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>故障类型</th>
+                        <th>发生时间</th>
+                        <th>处理状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+<!--                    <tr>-->
+<!--                        <td>1</td>-->
+<!--                        <td>连接异常</td>-->
+<!--                        <td>2024-2-26 22:46:10</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                <tr>-->
+<!--                        <td>2</td>-->
+<!--                        <td>突发型内短路</td>-->
+<!--                        <td>2024-5-26 07:11:25</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                    <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>3</td>-->
+<!--                        <td>自放电异常</td>-->
+<!--                        <td>2024-10-05 20:30:15</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>4</td>-->
+<!--                        <td>突发型内短路</td>-->
+<!--                        <td>2024-11-04 13:10:45</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>5</td>-->
+<!--                        <td>连接异常</td>-->
+<!--                        <td>2025-01-10 10:05:30</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>6</td>-->
+<!--                        <td>采样异常</td>-->
+<!--                        <td>2025-02-20 10:45:20</td>-->
+<!--                        <td class="processed">已处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>7</td>-->
+<!--                        <td>绝缘失效</td>-->
+<!--                        <td>2025-03-22 21:34:10</td>-->
+<!--                        <td class="unprocessed">未处理</td>-->
+<!--                        <td><button onclick="deleteRow(this)">删除</button></td>-->
+<!--                    </tr>-->
+                </tbody>
+            </table>
+<!--            <div class="form-row">-->
+<!--              <button id="openAddModalBtn">添加</button>-->
+<!--            </div>-->
+
+            <!-- 弹窗模态 -->
+            <div id="addModal" class="modal">
+              <div class="modal-content">
+                <span class="close-btn" id="closeAddModalBtn">&times;</span>
+                <h3>添加信息</h3>
+                <form id="addForm">
+                  <input type="text" id="faultType" placeholder="输入内容" required />
+                    <input type="datetime-local" id="faultTime" required />
+                    <select id="faultStatus" required>
+                      <option value="" disabled selected>请选择</option>
+                      <option value="processed">已处理</option>
+                      <option value="unprocessed">未处理</option>
+                    </select>
+                  <button type="submit">确认添加</button>
+                </form>
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+<!--    <script src="../add.js"></script>-->
+    <script src="{{ url_for('static', filename='js/add.js') }}"></script>
+    <script>
+        let hasStarted = false;
+
+ // 修改这里：点击页面任何地方都会触发所有图表的更新
+    document.addEventListener('click', function () {
+        if (hasStarted) return;
+        hasStarted = true;
+
+        // 直接调用所有图表的启动函数
+        if (typeof startCombinedChart === 'function') startCombinedChart();
+        if (typeof startCombinedChart2 === 'function') startCombinedChart2();
+        if (typeof startCombinedChart3 === 'function') startCombinedChart3();
+        if (typeof startCombinedChart4 === 'function') startCombinedChart4();
+    });
+        window.onload = () => {
+        renderTable();
+        generateFailureChart();  // 首次加载时生成图表
+        };
+
+        // 统一监听事件来刷新图表
+        document.addEventListener('alarmDataUpdated', function () {
+            generateFailureChart();
+        });
+  </script>
+    </body>
+
+<!--		<div class="box" style="position: relative; margin-top: 40px;">-->
+<!--			<div class="map">-->
+<!--        <div class="map5"><img src="images_login/充电状态.png"></div>-->
+<!--                -->
+<!--      </div>-->
+
+<!--			<div class="" style="height: 30px; position: relative; z-index: 100"></div>-->
+
+
+<!--			</div>-->
+
+                <html lang="zh">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>充电状态</title>
+                    <style>
+                        /* 呼吸光效 */
+                        @keyframes pulse {
+                            0% {
+                                box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+                            }
+                            50% {
+                                box-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
+                            }
+                            100% {
+                                box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+                            }
+                        }
+
+                       /* 充电状态盒子 */
+                        .box_cd {
+                            width: 100%;
+                            max-width: 400px;
+                            margin: 40px auto;
+                            padding: 20px;
+                            background: linear-gradient(135deg, rgba(10, 25, 50, 0.9), rgba(0, 150, 255, 0.8));
+                            border-radius: 15px;
+                            box-shadow: 0px 0px 10px rgba(0, 150, 255, 0.5);
+                            position: relative;
+                            overflow: hidden;
+                            animation: pulse 2s infinite ease-in-out;
+                            color: #fff;
+                            text-align: center;
+                            font-size: 18px;
+                            font-weight: bold;
+                            display: flex;  /* 使用 flexbox 布局 */
+                            justify-content: center;  /* 水平居中 */
+                            align-items: center;  /* 垂直居中 */
+                            flex-direction: column;  /* 子元素上下排列 */
+                        }
+
+                        /* 充电图标和文本容器 */
+                        .charge-container {
+                            display: flex;  /* 使图标和文字保持水平排列 */
+                            align-items: center;  /* 垂直居中对齐 */
+                            position: relative;
+                            top: -5px;  /* 整体上移 5px，可以根据需要调整 */
+                        }
+
+                        /* 充电图标 */
+                        .charge-icon {
+                            display: inline-block;
+                            width: 30px;  /* 适当调整大小 */
+                            height: 30px;
+                            position: relative;
+                            top: 5px;  /* 向下移动 5px，可以根据需要调整 */
+                            background: url('../images/充电图标.png') no-repeat center center;
+                            background-size: contain;
+                            margin-right: 10px;
+                        }
+
+                        /* 充电进度条 */
+                        .charge-bar {
+                            width: 100%;
+                            height: 8px;
+                            background: rgba(255, 255, 255, 0.2);
+                            border-radius: 5px;
+                            overflow: hidden;
+                            margin-top: 10px;
+                            position: relative;
+                        }
+
+                        /* 充电动画 */
+                        .charge-bar::before {
+                            content: "";
+                            display: block;
+                            width: 30%;
+                            height: 100%;
+                            background: linear-gradient(to right, #00ff99, #00ccff);
+                            border-radius: 5px;
+                            animation: charging 2s infinite linear;
+                        }
+
+                        @keyframes charging {
+                            0% {
+                                transform: translateX(-100%);
+                            }
+                            100% {
+                                transform: translateX(100%);
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="box_cd">
+                        <div class="charge-container">
+                            <span class="charge-icon"></span>
+                            正在充电...
+                        </div>
+                        <div class="charge-bar"></div>
+                    </div>
+
+
+
+                </body>
+                </html>
+
+		</li>
+		<li style="width: 32%">
+<!--            <div class="box">-->
+<!--                <div class="warning2" style="display: none;">-->
+<!--                    <img src="images_login/警告图标.png" alt="警告">-->
+<!--                </div>-->
+<!--			<div class="tit"><span>电池特征情况</span><p></p></div>-->
+<!--			<div class="boxnav" style="height: 320px;" id="combinedChart2">-->
+
+<!--			</div>-->
+<!--			</div>-->
+			<div class="box">
+                <div class="warning3" style="display: none;">-->
+                    <img src="{{ url_for('static', filename='images/警告图标.png') }}" alt="警告图标">
+                </div>
+				<div class="tit"><span>变化速率</span><p></p></div>
+				<div class="boxnav" style="height: 320px;" id="combinedChart3"></div>
+			</div>
+
+			<div class="box">
+                <div class="warning4" style="display: none;">-->
+                    <img src="{{ url_for('static', filename='images/警告图标.png') }}" alt="警告图标">
+                </div>
+            <div class="tit"><span>阻值变化</span><p></p></div>
+            <div class="boxnav" style="height: 200px;" id="combinedChart4"></div>
+        </div>
+
+			
+			<div class="box">
+			<div class="tit"><span>类别统计</span><p></p></div>
+			<div class="boxnav" style="height: 250px;" id="generateFailureChart">
+                <canvas id="failureChartCanvas" width="250" height="250"></canvas>
+            </div>
+<!--				<ul class="jbgc">-->
+<!--				<li >-->
+<!--				<div class="jztxt">-->
+<!--					<div><h3>1236<i>万元</i></h3>-->
+<!--					<span>私人诊所</span></div>-->
+<!--					<div><h3>1236<i>万元</i></h3>-->
+<!--					<span>私人诊所</span></div>-->
+<!--				<div><h3>1236<i>万元</i></h3>-->
+<!--					<span>私人诊所</span></div>-->
+<!--					</div>-->
+<!--					</li>-->
+<!--				<li style="width:90%" id="echart8"></li>-->
+<!--				</ul>-->
+			</div>
+		
+		</li>
+		</ul>
+	</div>
+</body>
+</html>

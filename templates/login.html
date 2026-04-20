@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>预警平台登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_login/index.css') }}">
+    <script src="{{ url_for('static', filename='js_login/jquery.js') }}"></script>
+</head>
+<body>
+
+<script>
+    $(document).ready(function () {
+        var whei = $(window).width();
+        $("html").css({ fontSize: whei / 24 });
+        $(window).resize(function () {
+            var whei = $(window).width();
+            $("html").css({ fontSize: whei / 24 });
+        });
+    });
+</script>
+
+<div class="main">
+    <div class="header">
+        <div class="header-center fl">
+            <div class="header-title">电池预警平台登录</div>
+            <div class="header-img"></div>
+        </div>
+        <div class="header-bottom fl"></div>
+    </div>
+
+    <div class="content">
+        <div class="content-left">
+            <!-- 可添加图片 -->
+        </div>
+        <div class="content-right">
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="right-infp-name">
+                    <input type="text" name="username" placeholder="请输入用户名" required>
+                </div>
+                <div class="right-infp-name">
+                    <input type="password" name="password" placeholder="请输入密码" required>
+                </div>
+                <div class="right-infp-btn">
+                    <button type="submit" class="btn">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

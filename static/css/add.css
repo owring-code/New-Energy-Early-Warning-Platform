@@ -1,0 +1,275 @@
+body {
+    background-color: #021b33;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #ffffff;
+}
+
+/* tit 和 box 由用户已有定义，保持不动 */
+.tit {
+    font-size: 18px;
+    color: #00c3ff;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00c3ff;
+}
+
+.boxnav {
+    height: 250px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #00c3ff #021b33;
+}
+.boxnav::-webkit-scrollbar {
+    width: 8px;
+}
+.boxnav::-webkit-scrollbar-track {
+    background: #021b33;
+}
+.boxnav::-webkit-scrollbar-thumb {
+    background-color: #00c3ff;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+thead {
+    background: rgba(0, 195, 255, 0.2);
+}
+th {
+    padding: 10px;
+    text-align: center; /* 修改这里为居中 */
+    color: #00c3ff;
+    font-size: 16px;
+}
+tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+tbody tr:hover {
+    background: rgba(0, 195, 255, 0.1);
+}
+
+
+td {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center; /* 新增居中 */
+}
+
+/* 状态标记 */
+.processed {
+    color: #00ff99;
+}
+.unprocessed {
+    color: #ff4c4c;
+}
+
+/* 添加区域 */
+.form-row {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-row input[type="text"],
+.form-row input[type="datetime-local"],
+.form-row select {
+    padding: 8px 14px;
+    font-size: 15px;
+    border: 1.5px solid #00aaff;
+    background-color: #011e3a; /* 更深的蓝色背景 */
+    color: #c0e8ff;
+    border-radius: 6px;
+    outline: none;
+    min-width: 160px;
+    font-family: 'Consolas', monospace;
+    box-shadow: inset 0 0 6px 1px rgba(0, 170, 255, 0.25);
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-row input[type="text"]:focus,
+.form-row input[type="datetime-local"]:focus,
+.form-row select:focus {
+    border-color: #00ffff;
+    background-color: #01375a;
+    box-shadow: 0 0 6px 1.5px rgba(0, 255, 255, 0.35);
+    color: #e0ffff;
+}
+
+/* 按钮美化 */
+.form-row button {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #00c3ff, #005f99);
+    color: #e0f7ff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Consolas', monospace;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow:
+        0 0 6px 0 #00c3ff,
+        0 0 12px 2px rgba(0, 195, 255, 0.4);
+    transition: background 0.4s ease, box-shadow 0.4s ease, color 0.3s ease;
+    user-select: none;
+}
+
+.form-row button:hover {
+    background: linear-gradient(135deg, #00ffff, #0088cc);
+    box-shadow:
+        0 0 10px 2px #00ffff,
+        0 0 18px 4px rgba(0, 255, 255, 0.6);
+    color: #ffffff;
+}
+
+.form-row button:active {
+    background: linear-gradient(135deg, #004466, #00334d);
+    box-shadow: 0 0 5px 1.5px #0099ff;
+    color: #b0e0ff;
+}
+
+/* 删除按钮样式 */
+table button {
+    padding: 6px 14px;
+    background: linear-gradient(145deg, #7a1f1f, #5c1616);
+    color: #d0d7e3; /* 冷灰白色 */
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(122, 31, 31, 0.6);
+    transition: background 0.4s ease, box-shadow 0.4s ease, color 0.3s ease;
+    user-select: none;
+    font-weight: 600;
+}
+
+table button:hover {
+    background: linear-gradient(145deg, #a23030, #7e2323);
+    box-shadow: 0 0 12px rgba(162, 48, 48, 0.9);
+    color: #f0f4f8;
+}
+
+table button:active {
+    background: linear-gradient(145deg, #5c1616, #7a1f1f);
+    box-shadow: 0 0 5px rgba(92, 22, 22, 0.7);
+}
+/* 模态背景层 */
+.modal {
+  display: none; /* 默认隐藏 */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 30, 58, 0.85); /* 透明背景，呼应页面色调 */
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+
+/* 弹窗内容 */
+.modal-content {
+  background-color: #011e3a;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+  min-width: 320px;
+  max-width: 90%;
+  color: #c0e8ff;
+  font-family: 'Consolas', monospace;
+}
+
+/* 关闭按钮 */
+.close-btn {
+  color: #00c3ff;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  float: right;
+  margin-top: -10px;
+  margin-right: -10px;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.close-btn:hover {
+  color: #00ffff;
+}
+
+/* 弹窗表单内输入框样式 */
+#addForm input,
+#addForm select {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  font-size: 15px;
+  border: 1.5px solid #00aaff;
+  background-color: #011e3a;
+  color: #c0e8ff;
+  border-radius: 6px;
+  outline: none;
+  font-family: 'Consolas', monospace;
+  box-shadow: inset 0 0 6px 1px rgba(0, 170, 255, 0.25);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+#addForm input:focus,
+#addForm select:focus {
+  border-color: #00ffff;
+  background-color: #01375a;
+  box-shadow: 0 0 6px 1.5px rgba(0, 255, 255, 0.35);
+  color: #e0ffff;
+}
+
+/* 确认添加按钮 */
+#addForm button[type="submit"] {
+  width: 100%;
+  padding: 10px 0;
+  background: linear-gradient(135deg, #00c3ff, #005f99);
+  color: #e0f7ff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Consolas', monospace;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow:
+      0 0 6px 0 #00c3ff,
+      0 0 12px 2px rgba(0, 195, 255, 0.4);
+  transition: background 0.4s ease, box-shadow 0.4s ease, color 0.3s ease;
+  user-select: none;
+}
+#addForm button[type="submit"]:hover {
+  background: linear-gradient(135deg, #00ffff, #0088cc);
+  box-shadow:
+      0 0 10px 2px #00ffff,
+      0 0 18px 4px rgba(0, 255, 255, 0.6);
+  color: #ffffff;
+}
+#addForm button[type="submit"]:active {
+  background: linear-gradient(135deg, #004466, #00334d);
+  box-shadow: 0 0 5px 1.5px #0099ff;
+  color: #b0e0ff;
+}
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title-bar .tit {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 可选：控制按钮宽度 */
+.title-bar .form-row button {
+  width: auto;
+  padding: 6px 16px;
+}
