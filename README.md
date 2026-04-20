@@ -1,4 +1,4 @@
-# ⚡️ 新能源电池预警平台 (New Energy Early Warning Platform)
+# ⚡️ 新能源电池预警平台 (New Energy Battery Early Warning Platform)
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg)
